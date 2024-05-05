@@ -3,22 +3,7 @@ class DataUrls:
     CREATE_COURIER = 'api/v1/courier/'
     DELETE_COURIER = 'api/v1/courier/:id/' # как вытаскивать id?
     LOGIN_COURIER = 'api/v1/courier/login/'
+    CREATE_ORDER = 'api/v1/orders'
 
 
-class DataCourier:
-    data_dublicate = {
-        "login": "wena",
-        "password": "1234",
-        "firstName": "saske"
-    }
 
-    data_no_one_field = {
-        "login": "",
-        "password": "1234",
-        "firstName": "qeqweq"
-    }
-
-    data_auth = {
-        "login": "wenja",
-        "password": "1234"
-    }
