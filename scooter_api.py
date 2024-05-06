@@ -1,22 +1,21 @@
 import requests
 import allure
 from data import DataUrls
-from helpers import DataGeneration, DataGenerationOrder
+from helpers import DataGeneration
 
 
 class MethodsCourier:
 # создание курьера
     @staticmethod
     @allure.step("Создание нового курьера в системе")
-    def create_courier():
-        response = requests.post(DataUrls.BASE_URL + DataUrls.CREATE_COURIER, data=DataGeneration.register_new_courier_and_return_login_password())
+    def create_courier(data_payload):
+        response = requests.post(DataUrls.BASE_URL + DataUrls.CREATE_COURIER, data=data_payload)
         return response
 
 # дубликат создания курьера
     @staticmethod
     @allure.step("Повторное создание курьера")
-    def dublicate_create_courier():
-        data_payload = DataGeneration.create_new_courier_and_return_login_password()
+    def dublicate_create_courier(data_payload):
         requests.post(DataUrls.BASE_URL + DataUrls.CREATE_COURIER, data=data_payload)
         response_two = requests.post(DataUrls.BASE_URL + DataUrls.CREATE_COURIER, data=data_payload)
         return response_two
@@ -36,20 +35,18 @@ class MethodsCourier:
 # логин курьера в системе
     @staticmethod
     @allure.step("Логин курьера в системе")
-    def login_courier():
-        data_payload = DataGeneration.create_new_courier_and_return_login_password()
+    def login_courier(data_payload):
         requests.post(DataUrls.BASE_URL + DataUrls.CREATE_COURIER, data=data_payload)
         response = requests.post(DataUrls.BASE_URL + DataUrls.LOGIN_COURIER, data=data_payload)
-        #id_courier = response.json()['id']
         return response
 
 # нет поля пароль у курьера
     @staticmethod
     @allure.step("Попытка логина курьера в системе без поля Пароль")
     def login_courier_not_field_password():
-        data_login = DataGeneration.create_new_courier_and_return_login_password()["login"]
+        data_payload = DataGeneration.create_new_courier_and_return_login_password()
         data = {
-            "login": data_login,
+            "login": data_payload["login"],
             "password": ""
         }
         response = requests.post(DataUrls.BASE_URL + DataUrls.LOGIN_COURIER, data=data)
@@ -66,8 +63,15 @@ class MethodsCourier:
 
 class DataOrder:
 # создание заказа
-    @classmethod
+    @staticmethod
     @allure.step("Создание заказа")
-    def create_order(cls, payload):
-        response = requests.post(DataUrls.BASE_URL + DataUrls.CREATE_ORDER, data=payload)
+    def create_order(payload):
+        response = requests.post(DataUrls.BASE_URL + DataUrls.ORDER, data=payload)
+        return response
+
+# получение списка заказов
+    @staticmethod
+    @allure.step("Получение списка заказов")
+    def get_list_order():
+        response = requests.get(DataUrls.BASE_URL + DataUrls.ORDER)
         return response

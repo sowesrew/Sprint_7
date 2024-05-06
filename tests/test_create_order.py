@@ -6,7 +6,7 @@ from scooter_api import DataOrder
 
 class TestCreateOrder:
     @allure.title('Проверка создания заказа')
-    @allure.description('Создание заказа с различными цветами')
+    @allure.description('Создание заказа с различным выбором цвета самоката')
     @pytest.mark.parametrize(
         'payload',
         [
